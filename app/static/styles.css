@@ -1,0 +1,187 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Poetsen+One&display=swap");
+
+.piercing_name{
+  font-weight: bold;
+  font-size: 5rem;
+  margin: auto 0;  
+  text-align: center;
+  margin-top: 2%;
+  margin-bottom: .5%;
+  font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+.font_stuff{
+    font-size: 1rem;
+    text-align: center;
+}
+
+.base_page{
+    text-align:center;
+}
+
+.footer{
+    text-align:center;
+}
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #e6e882 !important;
+}
+.user_card {
+    width: 350px;
+    margin-top: 2%;
+    color:white;
+    margin-bottom: auto;
+    background: #4c2451;
+    position: relative;
+    display: flex;
+    text-align:center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+
+}
+
+.form_container {
+    margin-top: 20px;
+}
+
+#form-title{
+    color: #fff;
+}
+.login_btn {
+    width: 100%;
+    background: #060a0b !important;
+    color: white !important;
+}
+.login_btn:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+.login_container {
+    padding: 0 2rem;
+}
+.input-group-text {
+    background: #690358 !important;
+    color: white !important;
+    border: 0 !important;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+.input_user,
+.input_pass:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+#messages{
+    background-color: grey;
+    color: #fff;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.myNav{
+    background: black;
+    padding: 10px;
+    border-bottom: 10px solid white;
+    align-items: end
+}
+
+.base_btn{
+    background: #060a0b !important;
+    color: white !important;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    margin-top:1%;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20% ;
+    justify-content: center;
+}
+
+.booking_box{
+    background: #690358 !important;
+    color:white;
+    /* opacity: 0.3; */
+    justify-content: center;
+    text-align: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-bottom: 2%;
+    border-radius: 8%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+}
+
+.new_font {
+    font-family: "rajdhani", sans-serif;
+    line-height: 2em;
+    text-align: center;
+    color: black;
+    width: 100%;
+  }
+
+  .poetsen_one{
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+
+  .log_in{
+        width: 350px;
+        margin-top: 2%;
+        color:white;
+        margin-left: 38%;
+        margin-bottom: auto;
+        background: #4c2451;
+        text-align:center;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+
+  }
+
+  .apps_layout{
+    background-color: #690358b3;
+    color: white;
+    text-align:center;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding-bottom:  1%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+  }
+
+  .message_css {
+    list-style-type: none;
+    background-color: #e2ec7e;
+    padding: 0;
+    justify-content: center;
+
+}
+
+    .messages .error {
+        color: red;
+}

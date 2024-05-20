@@ -1,0 +1,39 @@
+<title>Online Booking</title>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+{% if user.is_authenticated %}
+<h1 class="text-center fPersian mt-3">Online Booking</h1>
+
+<div class="booking_box">
+    <form method="post" action="{% url 'confirmation' %}" class="me-2 ms-2" required>
+        {% csrf_token %}
+        
+        <!--input time-->
+        <h3 class="text-center fPersian mt-4">Select a Time:</h3>
+        <div>
+            <select class="form-select fs-3 text-center" name="time">
+                {% for time in times %}
+                <option value="{{time}}">{{time}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit"  class="btn base_btn">Submit</button>
+
+    </form>
+</div>
+
+{% else %}
+
+<div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5">
+    <h1 class="p-2  me-3">First Log in!</h1>
+    <a href="{% url 'login' %}" class="btn base_btn">Sign in</a>
+</div>
+
+{% endif %}
+{%endblock%}

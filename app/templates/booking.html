@@ -1,0 +1,53 @@
+<title>Online Booking</title>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+{% if user.is_authenticated %}
+<h1 class="text-center  mt-3">Pick your Poison!</h1>
+
+<div class="booking_box">
+    <form method="POST" action="{% url 'booking' %}" class="me-2 ms-2" required>
+        {% csrf_token %}
+
+        <!--input service-->
+        <div>
+            <h3 class="">Which Therapy:</h3>
+            <select class="form-select fs-3" name="service">
+                <option value="Ear Piercing">Ear Piercing $30</option>
+                <option value="Nostril Piercing">Nostril Piercing $45</option>
+                <option value="Septum Piercing">Septum Piercing $60</option>
+                <option value="Naval Piercing">Naval Piercing $80</option>
+            </select>
+        </div>
+            <!--input day-->
+            <div class="mt-3">
+                <h3 class="">Which Day:</h3>
+                <select class="form-select fs-3" name="day">
+                    {% for validateWeekday in validateWeekdays %}
+                    <option value="{{validateWeekday}}">{{validateWeekday}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+
+            <br/>
+            <button type="submit" class="btn base_btn">Book Me Baby!</button>
+        </div>
+    </form>
+</div>
+
+{% else %}
+
+<div class="log_in">
+    <h1>Log In Goober!</h1>
+    <a href="{% url 'login' %}" class="btn base_btn">Log in</a>
+</div>
+
+{% endif %}
+
+
+{% endblock content %}
