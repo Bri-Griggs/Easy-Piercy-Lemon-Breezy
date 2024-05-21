@@ -25,10 +25,10 @@ urlpatterns = [
     path('logout/', logoutUser, name="logout"),
 
     path('booking/', BookApp, name="booking"),
-    path('confirmation', confirmApp, name='confirmation'),
+    path('time', timeApp, name='time'),
     path('appointments', userApp, name='appointments'),
     path('userUpdate/<int:id>', userUpdate, name='userUpdate'),
-    path('user-update-submit/<int:id>', userUpdateSubmit, name='userUpdateSubmit'),
+    path('userUpdateSubmit/<int:id>', userUpdateSubmit, name='userUpdateSubmit'),
     path('delete/<int:id>/', deleteAppointment, name='deleteAppointment'),
     path('staff-panel', staffPanel, name='staffPanel'),
     path("admin/", admin.site.urls),

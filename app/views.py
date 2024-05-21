@@ -79,7 +79,7 @@ def BookApp (request):
         request.session['day'] = day
         request.session['service'] = service
 
-        return redirect('confirmation')
+        return redirect('time')
 
 
     return render(request, 'booking.html', {
@@ -87,7 +87,7 @@ def BookApp (request):
             'validateWeekdays':validateWeekdays,
         })
 
-def confirmApp(request):
+def timeApp(request):
     user = request.user
     times = [
         "3 PM", "3:30 PM", "4 PM", "4:30 PM", "5 PM", "5:30 PM", "6 PM", "6:30 PM", "7 PM", "7:30 PM"
@@ -133,7 +133,7 @@ def confirmApp(request):
             messages.success(request, "Please Select A Service!")
 
 
-    return render(request, 'confirmation.html', {
+    return render(request, 'time.html', {
         'times':hour,
     })
 
