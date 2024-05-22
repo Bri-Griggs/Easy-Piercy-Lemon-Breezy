@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Order(models.Model):
     user= models.CharField(max_length=100)
-    product= models.CharField(max_length=100)
+    # product= models.CharField(max_length=100)
 
 
 SERVICE_CHOICES = (

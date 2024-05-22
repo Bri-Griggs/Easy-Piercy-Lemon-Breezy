@@ -21,7 +21,9 @@
 .base_page{
     text-align:center;
 }
-
+.announcement_tags{
+    text-align:center;
+}
 .footer{
     text-align:center;
 }
@@ -53,6 +55,12 @@ html {
 
 .form_container {
     margin-top: 20px;
+}
+.user_apps{
+    border-color:white;
+    border-width: 100%;
+    font-size: 90%;
+    align-items: center;
 }
 
 #form-title{

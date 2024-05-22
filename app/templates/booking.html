@@ -15,7 +15,7 @@
 
         <!--input service-->
         <div>
-            <h3 class="">Which Therapy:</h3>
+            <h3 class="">What am I piercing?</h3>
             <select class="form-select fs-3" name="service">
                 <option value="Ear Piercing">Ear Piercing $30</option>
                 <option value="Nostril Piercing">Nostril Piercing $45</option>
@@ -25,7 +25,7 @@
         </div>
             <!--input day-->
             <div class="mt-3">
-                <h3 class="">Which Day:</h3>
+                <h3 class="">When am I piercing?</h3>
                 <select class="form-select fs-3" name="day">
                     {% for validateWeekday in validateWeekdays %}
                     <option value="{{validateWeekday}}">{{validateWeekday}}</option>
@@ -40,14 +40,8 @@
     </form>
 </div>
 
-{% else %}
-
-<div class="log_in">
-    <h1>Log In Goober!</h1>
-    <a href="{% url 'login' %}" class="btn base_btn">Log in</a>
-</div>
-
 {% endif %}
+
 
 
 {% endblock content %}
