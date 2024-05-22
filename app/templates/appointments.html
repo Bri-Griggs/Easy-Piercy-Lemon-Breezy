@@ -31,11 +31,7 @@
                 <p class="poetsen_one">Need to change your appointment time? No problem!</p>
                 <a class="btn base_btn" href="{% url 'userUpdate' appointment.id %}">Edit Time</a>
             </div>
-            <div class="message_css">
-                {% for message in messages%}
-                    <p id="messages">{{message}}</p>
-                </div>
-                    {% endfor %}
+            
         </div>
         {% endfor %}
     </div>
