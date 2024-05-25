@@ -23,11 +23,11 @@ urlpatterns = [
     path('register/', registerPage, name="register"),
     path('login/', loginPage, name="login"),
     path('logout/', logoutUser, name="logout"),
-
     path('booking/', BookApp, name="booking"),
     path('time', timeApp, name='time'),
     path('appointments', userApp, name='appointments'),
     path('userUpdate/<int:id>', userUpdateSubmit, name='userUpdate'),
-    path('delete/<int:id>/', deleteAppointment, name='deleteAppointment'),
+    path('admin/appointments/', adminAppointments, name='adminOnly'),
+    path('admin/delete/<int:id>/', deleteAppointment, name='deleteAppointment'),
     path("admin/", admin.site.urls),
 ]

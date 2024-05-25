@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Poetsen+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
 
 .piercing_name{
   font-weight: bold;
@@ -26,7 +27,12 @@
 }
 .footer{
     text-align:center;
-}
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    padding:1%;
+  }
+    
 body,
 html {
     margin: 0;
@@ -150,6 +156,7 @@ img{
     font-family: "Poetsen One", sans-serif;
     font-weight: 400;
     font-style: normal;
+    padding:2%;
   }
 
 

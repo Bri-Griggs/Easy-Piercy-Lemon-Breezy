@@ -12,12 +12,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
 
 
 </head>
 <body>
     <nav class="myNav">
-        {% if user.is_authenticated %}
+        {%if user.is_staff%}
+        <a href="{% url 'adminOnly' %}">Upcoming Appointments</a>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'logout' %}">Logout</a></li>
+        {%endif%}
+        {% if user.is_authenticated and not user.is_staff%}
         <a href="{% url 'home' %}">Home</a>
         {% comment %} <a href="{% url 'register' %}">Register</a> {% endcomment %}
         <a href="{% url 'booking' %}">Book</a>
@@ -30,21 +36,37 @@
     
     <h3 class="piercing_name">Easy Piercy Lemon Breezy</h3>
     <img src="{% static 'logo.png' %}">
-    <main>
+    {% comment %} {%if user.is_staff %}
+    <a type="button" class="base_btn" href="{% url 'adminOnly' %}">View Appointments Now!</a>
+    {%endif%} {% endcomment %}
+    <main>                      
         {% block content %}
+        {%if not user.is_staff%}
     <div class="d-flex justify-content-center form_container">
         <div class="base_page">
             <div class="text-center  pt-5 pb-5">
-                <h1 class="display-1 cGreen me-2 ms-2">Breezy McCheesy the Rizzler Piercer</h1>
-                <h3 class="base_page">I'm totally a piercer</h3>
-                <p class="poetsen_one">Hi, I'm Bri and I have been piercing for zero years and I highly enjoy it!
-                    I love piercing people's hearts so I thought I'd try piercing other body parts! I offer several fabulous 
-                    services! I offer ear, nostril, septum, and navel piercings!
+                {% comment %} <h1 class="display-1 cGreen me-2 ms-2">Breezy McCheesy the Rizzler Piercer</h1> {% endcomment %}
+                <h3 class="base_page">I'm Bri and I'm totally a piercer</h3>
+                <p class="poetsen_one">Hi, I have been piercing for zero years and I highly enjoy it!
+                    I love piercing people's hearts so I thought I'd try piercing other body parts! My needles are as
+                    sharp as my puns! I offer several fabulous services! Poking fun at others is never a good idea so 
+                    let me poke you for fun and it only hurts you! I offer ear, nostril, septum, and navel piercings! 
+                    Closed on Sundays because it's holy, but come by any other day of the week and I can make you holey!
                 </p>
+                <h3>This could be YOU!</h3>
+                <img src="{% static 'Impaled.jpg' %}">
                 <p class='poetsen_one'>For cancellations call the shop at 1-800-pls-no</p>
-    
+                {%endif%}
+                {%if not user.is_authenticated and user.is_staff%}
                   <a type="button" class="base_btn" href="{% url 'register' %}">Register/ Log in Now!</a>
-                
+                {%endif%}
+                {% if user.is_staff%}
+                <div class="text-center  pt-5 pb-5">
+                    <h1 class="display-1 cGreen me-2 ms-2">Welcome in!</h1>
+                    <h3 class="base_page">You are a superstar!</h3>
+                    <p class="poetsen_one">A good pun is like a piercing, it leaves a lasting impression</p>
+
+                {%endif%}
             </div>
         </div>
     </div>
@@ -54,6 +76,6 @@
 
 {% endblock content %}
     <footer class="footer">Piercings: the perfect accessory for when you want to look tough, but also need waterproof mascara.
-        book with Bri today!
+        Book with Bri today!
     </footer>
 </html> 

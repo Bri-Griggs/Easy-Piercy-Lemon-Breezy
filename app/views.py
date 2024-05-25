@@ -37,6 +37,9 @@ def registerPage(request):
     return render(request, 'register.html', context)
 
 def loginPage(request):
+    if request.user.is_staff:
+        return redirect('adminOnly')
+    
     if request.user.is_authenticated:
         return redirect('booking')
     
@@ -45,6 +48,9 @@ def loginPage(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
+        if request.user.is_staff:
+            return redirect('adminOnly')
+        
         if user is not None:
             login(request, user)
             return redirect('booking')
@@ -57,7 +63,6 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    messages.success(request, 'Successfully logged out!')
     return redirect('login')
 
 def BookApp(request):
@@ -70,7 +75,6 @@ def BookApp(request):
         service = request.POST.get('service')
         day = request.POST.get('day')
         if service is None:
-            messages.success(request, "Please Select A Service!")
             return redirect('booking')
 
         
@@ -115,18 +119,8 @@ def timeApp(request):
                                 day=day,
                                 time=time,
                             )
-                            messages.success(request, "Appointment Saved!")
                             return redirect('appointments')
-                        else:
-                            messages.success(request, "The Selected Time Has Been Reserved Before!")
-                    else:
-                        messages.success(request, "The Selected Day Is Full!")
-                else:
-                    messages.success(request, "Appointments cannot be booked on Sundays")
-            else:
-                messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
-        else:
-            messages.success(request, "Please Select A Service!")
+        
 
     return render(request, 'time.html', {
         'times': hour,
@@ -144,13 +138,19 @@ def is_admin(user):
 
 @login_required
 @user_passes_test(is_admin)
+def adminAppointments(request):
+    if request.user!= None and not request.user.is_staff:
+        return redirect('home')
+    appointments = Appointment.objects.all().order_by('day', 'time')
+    return render(request, 'adminOnly.html', {'appointments': appointments})
+    
+
 def deleteAppointment(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     
     if request.method == 'POST':
         appointment.delete()
-        messages.success(request, "Appointment deleted successfully.")
-        return redirect('admin')
+        return redirect('delete')
 
     return render(request, 'delete.html', {'appointment': appointment})
 
@@ -186,34 +186,13 @@ def userUpdateSubmit(request, id):
                                 day=day,
                                 time=time,
                             )
-                            messages.success(request, "Time has been changed!")
-                            return redirect('appointments')
-                        else:
-                            messages.success(request, "The Selected Time Has Been Reserved Before!")
-                    else:
-                        messages.success(request, "The Selected Day Is Full!")
-                else:
-                    messages.success(request, "Appointments cannot be booked on Sundays")
-            else:
-                messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
-        else:
-            messages.success(request, "Please Select A Service!")
+
         return redirect('appointments')
 
     return render(request, 'userUpdate.html', {
         'times': hour,
         'id': id,
     })
-
-def deleteAppointment(request, id):
-    appointment = get_object_or_404(Appointment, pk=id)
-    
-    if request.method == 'POST':
-        appointment.delete()
-        messages.success(request, "Appointment deleted successfully.")
-        return redirect('staffPanel')
-
-    return render(request, 'delete.html', {'appointment': appointment})
 
 def dayToWeekday(x):
     z = datetime.strptime(x, "%Y-%m-%d")
