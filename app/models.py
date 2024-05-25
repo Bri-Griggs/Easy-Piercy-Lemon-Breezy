@@ -28,7 +28,7 @@ TIME_CHOICES = (
 )
 
 class Appointment(models.Model):
-    user = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     service = models.CharField(max_length=50, choices=SERVICE_CHOICES, default="Ear Piercing")
     day = models.DateField(default=datetime.now)
     time = models.CharField(max_length=10, choices=TIME_CHOICES, default="3 PM")
