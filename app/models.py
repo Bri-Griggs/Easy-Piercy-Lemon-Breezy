@@ -1,20 +1,18 @@
 from django.db import models
-from datetime import datetime
 from django.contrib.auth.models import User
+from datetime import datetime, timedelta
 
-
-# Create your models here.
 class Order(models.Model):
-    user= models.CharField(max_length=100)
-    # product= models.CharField(max_length=100)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
 
 SERVICE_CHOICES = (
     ("Ear Piercing", "Ear Piercing"),
     ("Nostril Piercing", "Nostril Piercing"),
     ("Septum Piercing", "Septum Piercing"),
-    ("Naval Piercing", "Navel Piercing"),
-    )
+    ("Navel Piercing", "Navel Piercing"),
+)
 
 TIME_CHOICES = (
     ("3 PM", "3 PM"),
@@ -35,5 +33,6 @@ class Appointment(models.Model):
     day = models.DateField(default=datetime.now)
     time = models.CharField(max_length=10, choices=TIME_CHOICES, default="3 PM")
     time_ordered = models.DateTimeField(default=datetime.now, blank=True)
+
     def __str__(self):
         return f"{self.user.username} | day: {self.day} | time: {self.time}"

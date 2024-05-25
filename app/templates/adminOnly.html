@@ -6,14 +6,15 @@
 </head>
 <body>
     <div class="apps_layout">
-<h1>All Appointments</h1>
+<h1>All Appointments:</h1>
+<p class="poetsen_one">Hello! Here are your upcoming appointments!</p>
 <ul>
     {% for appointment in appointments %}
         <ul>
             {{ appointment.service }} on {{ appointment.day }} at {{ appointment.time }}
             <form action="{% url 'deleteAppointment' appointment.id %}" method="post" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit">Delete</button>
+                <button type="submit" class="delete_btn">Delete</button>
             </form>
         </ul>
     

@@ -1,22 +1,11 @@
-from django.shortcuts import render, redirect
-from django.http.response import HttpResponse
-from django.http.request import HttpRequest
-from django.forms import inlineformset_factory
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect, render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
-from django.contrib.auth.decorators import user_passes_test
-
-# Create your views here.
-from .models import *
-from .forms import OrderForm, CreateUserForm
-from django.contrib import messages
-# from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.decorators import login_required, user_passes_test
-
-# from .filters import OrderFilter
+from django.contrib import messages
+from django.contrib.auth.models import User
+from .models import Order, Appointment
+from .forms import CreateUserForm
+from datetime import datetime, timedelta
 
 def home(request):
     return render(request, 'home.html')
@@ -29,7 +18,7 @@ def registerPage(request):
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
+            messages.success(request, f'Account was created for {user}')
             return redirect('login')
 
     context = {'form': form}
@@ -37,7 +26,9 @@ def registerPage(request):
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('booking')
+        if request.user.is_superuser:
+            return redirect('adminOnly')
+        return redirect('home')
     
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -46,12 +37,15 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('booking')
+            if user.is_superuser:
+                return redirect('adminOnly')
+            return redirect('home')
         else:
             messages.info(request, 'Username OR password is incorrect')
 
     context = {}
     return render(request, 'login.html', context)
+
 
 def logoutUser(request):
     logout(request)
@@ -107,18 +101,8 @@ def timeApp(request):
                                 day=day,
                                 time=time,
                             )
-                            messages.success(request, "Appointment Saved!")
                             return redirect('appointments')
-                        else:
-                            messages.success(request, "The Selected Time Has Been Reserved Before!")
-                    else:
-                        messages.success(request, "The Selected Day Is Full!")
-                else:
-                    messages.success(request, "Appointments cannot be booked on Sundays")
-            else:
-                messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
-        else:
-            messages.success(request, "Please Select A Service!")
+                        (request, "Please Select A Service!")
 
     return render(request, 'time.html', {
         'times': hour,
@@ -148,7 +132,6 @@ def deleteAppointment(request, id):
     
     if request.method == 'POST':
         appointment.delete()
-        messages.success(request, "Appointment deleted successfully.")
         return redirect('adminOnly')
 
     return render(request, 'delete.html', {'appointment': appointment})
@@ -184,18 +167,9 @@ def userUpdateSubmit(request, id):
                                 day=day,
                                 time=time,
                             )
-                            messages.success(request, "Time has been changed!")
+                        
                             return redirect('appointments')
-                        else:
-                            messages.success(request, "The Selected Time Has Been Reserved Before!")
-                    else:
-                        messages.success(request, "The Selected Day Is Full!")
-                else:
-                    messages.success(request, "Appointments cannot be booked on Sundays")
-            else:
-                messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
-        else:
-            messages.success(request, "Please Select A Service!")
+                
         return redirect('appointments')
 
     return render(request, 'userUpdate.html', {
@@ -240,3 +214,7 @@ def checkEditTime(times, day, id):
         if Appointment.objects.filter(day=day, time=k).count() < 1 or time == k:
             x.append(k)
     return x
+
+
+def fileNotFound(request):
+    return render(request, 'filenotfound.html')

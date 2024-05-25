@@ -1,6 +1,5 @@
 <title>Appointments</title>
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
 
 
@@ -10,12 +9,11 @@
 
 <div class="apps_layout">
     <h2 class="announcement_tags">User Info:</h2>
-    <ul class="list-group fs-4 mt-3">
+    <ul>
             <li class="list-group mt-2">Username: {{ user.username }}</li>
     </ul>
 </div>
 
-<!--Appointment Loop-->
 {% if appointments.count > 0 %}
 <div class="mt-5 ">
     <div class="apps_layout">
@@ -28,7 +26,7 @@
             <p class="user_apps">Time: {{ appointment.time }}</p>
             <p class="user_apps">Service: {{ appointment.service }}</p>
             <div class="user_apps">
-                <p class="poetsen_one">Need to change your appointment time? No problem!</p>
+                <p class="poetsen_two">Need to change your appointment time? No problem!</p>
                 <a class="btn base_btn" href="{% url 'userUpdate' appointment.id %}">Edit Time</a>
             </div>
             
