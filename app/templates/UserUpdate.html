@@ -1,6 +1,5 @@
 <title>Update Appointment</title>
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
 
 
@@ -11,17 +10,24 @@
     <form method="post" action="{% url 'userUpdate' id %}" class="me-2 ms-2" required>
         {% csrf_token %}
         
-        <!--input time-->
+        <!-- Display error message if it exists -->
+        {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+        {% endif %}
+        
+        <!-- Input time -->
         <h3 class="text-center fPersian mt-4">What Time works better?</h3>
         <div>
             <select class="form-select fs-3 text-center" name="time">
                 {% for time in times %}
-                <option value="{{time}}">{{time}}</option>
+                <option value="{{ time }}" {% if time == userSelectedTime %}selected{% endif %}>{{ time }}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <button type="submit"  class="btn base_btn">Submit</button>
+        <button type="submit" class="btn base_btn">Submit</button>
 
     </form>
 </div>

@@ -150,31 +150,31 @@ def userUpdateSubmit(request, id):
     service = request.session.get('service')
 
     hour = checkEditTime(times, day, id)
-    appointment = Appointment.objects.get(pk=id)
+    appointment = get_object_or_404(Appointment, pk=id)
     userSelectedTime = appointment.time
+
+    error_message = None
     if request.method == 'POST':
-        time = request.POST.get("time")
+        new_time = request.POST.get("time")
         date = dayToWeekday(day)
 
         if service:
             if minDate <= day <= maxDate:
                 if date != 'Sunday':
                     if Appointment.objects.filter(day=day).count() < 11:
-                        if Appointment.objects.filter(day=day, time=time).count() < 1 or userSelectedTime == time:
-                            Appointment.objects.filter(pk=id).update(
-                                user=user,
-                                service=service,
-                                day=day,
-                                time=time,
-                            )
-                        
+                        if Appointment.objects.filter(day=day, time=new_time).exists():
+                            error_message = "This time is already selected. Please choose a different time."
+                        elif userSelectedTime != new_time:
+                            appointment.time = new_time
+                            appointment.save()
                             return redirect('appointments')
-                
-        return redirect('appointments')
+                        else:
+                            error_message = "This time is already your current appointment time."
 
     return render(request, 'userUpdate.html', {
         'times': hour,
         'id': id,
+        'error_message': error_message,
     })
 
 def dayToWeekday(x):
