@@ -27,7 +27,7 @@ urlpatterns = [
     path('time', timeApp, name='time'),
     path('appointments', userApp, name='appointments'),
     path('userUpdate/<int:id>', userUpdateSubmit, name='userUpdate'),
-    path('admin/appointments/', adminAppointments, name='adminOnly'),
+    path('admin/appointments/', adminOnly, name='adminOnly'),
     path('admin/delete/<int:id>/', deleteAppointment, name='deleteAppointment'),
     path("admin/", admin.site.urls),
 ]

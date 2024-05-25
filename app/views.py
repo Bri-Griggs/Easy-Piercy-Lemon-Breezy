@@ -20,26 +20,22 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 def home(request):
     return render(request, 'home.html')
-# @unauthenticated_user
 
 def registerPage(request):
-    form =CreateUserForm()
+    form = CreateUserForm()
 
     if request.method == 'POST':
-        form =CreateUserForm(request.POST)
+        form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for' + user)
+            messages.success(request, 'Account was created for ' + user)
             return redirect('login')
 
-    context ={'form':form}
+    context = {'form': form}
     return render(request, 'register.html', context)
 
 def loginPage(request):
-    if request.user.is_staff:
-        return redirect('adminOnly')
-    
     if request.user.is_authenticated:
         return redirect('booking')
     
@@ -48,8 +44,6 @@ def loginPage(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
-        if request.user.is_staff:
-            return redirect('adminOnly')
         if user is not None:
             login(request, user)
             return redirect('booking')
@@ -59,27 +53,24 @@ def loginPage(request):
     context = {}
     return render(request, 'login.html', context)
 
-
 def logoutUser(request):
     logout(request)
+    messages.success(request, 'Successfully logged out!')
     return redirect('login')
 
 def BookApp(request):
     weekdays = validWeekday(22)
-
-    
     validateWeekdays = isWeekdayValid(weekdays)
 
     if request.method == 'POST':
         service = request.POST.get('service')
         day = request.POST.get('day')
-        if service is None:
+        if not service:
+            messages.success(request, "Please Select A Service!")
             return redirect('booking')
 
-        
         request.session['day'] = day
         request.session['service'] = service
-
         return redirect('time')
 
     return render(request, 'booking.html', {
@@ -97,17 +88,15 @@ def timeApp(request):
     deltatime = today + timedelta(days=21)
     maxDate = deltatime.strftime('%Y-%m-%d')
 
-    
     day = request.session.get('day')
     service = request.session.get('service')
 
-    
     hour = checkTime(times, day)
     if request.method == 'POST':
         time = request.POST.get("time")
         date = dayToWeekday(day)
 
-        if service is not None:
+        if service:
             if minDate <= day <= maxDate:
                 if date != 'Sunday':
                     if Appointment.objects.filter(day=day).count() < 11:
@@ -118,8 +107,18 @@ def timeApp(request):
                                 day=day,
                                 time=time,
                             )
+                            messages.success(request, "Appointment Saved!")
                             return redirect('appointments')
-        
+                        else:
+                            messages.success(request, "The Selected Time Has Been Reserved Before!")
+                    else:
+                        messages.success(request, "The Selected Day Is Full!")
+                else:
+                    messages.success(request, "Appointments cannot be booked on Sundays")
+            else:
+                messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
+        else:
+            messages.success(request, "Please Select A Service!")
 
     return render(request, 'time.html', {
         'times': hour,
@@ -129,27 +128,28 @@ def userApp(request):
     user = request.user
     appointments = Appointment.objects.filter(user=user).order_by('day', 'time')
     return render(request, 'appointments.html', {
-        'user':user,
-        'appointments':appointments,
+        'user': user,
+        'appointments': appointments,
     })
+
 def is_admin(user):
     return user.is_staff
 
 @login_required
 @user_passes_test(is_admin)
-def adminAppointments(request):
-    if request.user != None and not request.user.is_staff:
-        return redirect('home')
+def adminOnly(request):
     appointments = Appointment.objects.all().order_by('day', 'time')
     return render(request, 'adminOnly.html', {'appointments': appointments})
-    
 
+@login_required
+@user_passes_test(is_admin)
 def deleteAppointment(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     
     if request.method == 'POST':
         appointment.delete()
-        return redirect('delete')
+        messages.success(request, "Appointment deleted successfully.")
+        return redirect('adminOnly')
 
     return render(request, 'delete.html', {'appointment': appointment})
 
@@ -166,7 +166,6 @@ def userUpdateSubmit(request, id):
     day = request.session.get('day')
     service = request.session.get('service')
 
-    
     hour = checkEditTime(times, day, id)
     appointment = Appointment.objects.get(pk=id)
     userSelectedTime = appointment.time
@@ -174,7 +173,7 @@ def userUpdateSubmit(request, id):
         time = request.POST.get("time")
         date = dayToWeekday(day)
 
-        if service is not None:
+        if service:
             if minDate <= day <= maxDate:
                 if date != 'Sunday':
                     if Appointment.objects.filter(day=day).count() < 11:
@@ -185,7 +184,18 @@ def userUpdateSubmit(request, id):
                                 day=day,
                                 time=time,
                             )
-
+                            messages.success(request, "Time has been changed!")
+                            return redirect('appointments')
+                        else:
+                            messages.success(request, "The Selected Time Has Been Reserved Before!")
+                    else:
+                        messages.success(request, "The Selected Day Is Full!")
+                else:
+                    messages.success(request, "Appointments cannot be booked on Sundays")
+            else:
+                messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
+        else:
+            messages.success(request, "Please Select A Service!")
         return redirect('appointments')
 
     return render(request, 'userUpdate.html', {
@@ -199,7 +209,6 @@ def dayToWeekday(x):
     return y
 
 def validWeekday(days):
-    # Loop days you want in the next 21 days:
     today = datetime.now()
     weekdays = []
     for i in range(days):

@@ -1,26 +1,25 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Appointments</title>
+<meta charset="UTF-8">
+<title>Admin Appointments</title>
 </head>
 <body>
     <div class="apps_layout">
-    <h1>All Appointments</h1>
-   
-        {% for appointment in appointments %}
-            <ul>
-                {{ appointment.service }} on {{ appointment.day }} at {{ appointment.time }}
-                <form action="{% url 'delete' appointment %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class"base_btn">Delete</button>
-                </form>
-            </ul>
-        {% endfor %}
-   
+<h1>All Appointments</h1>
+<ul>
+    {% for appointment in appointments %}
+        <ul>
+            {{ appointment.service }} on {{ appointment.day }} at {{ appointment.time }}
+            <form action="{% url 'deleteAppointment' appointment.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </ul>
+    
+    {% endfor %}
 </div>
+</ul>
 </body>
 </html>
 
