@@ -57,9 +57,9 @@
                 <img src="{% static 'Impaled.jpg' %}">
                 <p class='poetsen_one'>For cancellations call the shop at 1-800-pls-no</p>
                 {%endif%}
-                {%if not user.is_authenticated and user.is_staff%}
+                {% comment %} {%if not user.is_authenticated and user.is_staff%} {% endcomment %}
                   <a type="button" class="base_btn" href="{% url 'register' %}">Register/ Log in Now!</a>
-                {%endif%}
+                {% comment %} {%endif%} {% endcomment %}
                 {% if user.is_staff%}
                 <div class="text-center  pt-5 pb-5">
                     <h1 class="display-1 cGreen me-2 ms-2">Welcome in!</h1>

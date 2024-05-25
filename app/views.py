@@ -50,7 +50,6 @@ def loginPage(request):
 
         if request.user.is_staff:
             return redirect('adminOnly')
-        
         if user is not None:
             login(request, user)
             return redirect('booking')
@@ -139,7 +138,7 @@ def is_admin(user):
 @login_required
 @user_passes_test(is_admin)
 def adminAppointments(request):
-    if request.user!= None and not request.user.is_staff:
+    if request.user != None and not request.user.is_staff:
         return redirect('home')
     appointments = Appointment.objects.all().order_by('day', 'time')
     return render(request, 'adminOnly.html', {'appointments': appointments})
